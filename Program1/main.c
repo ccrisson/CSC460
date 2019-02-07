@@ -14,23 +14,40 @@ int main(int argc, char** args) {
 	// Declare variables
 	char inFile[50];
 	char outFile[50];
-
+	char choice;
+	FILE *inFilePtr;
+	FILE *outFilePtr;
 	// Get input and output file names
 	// If not provided upon loading, Prompt for them
-	switch (argc) {
-		case 1:
-			// No arguments passed from command line
-			printf("Please enter an input file name ");
+	if (argc < 2) {
+		printf("Please enter an input file name ");
+		scanf("%s", inFile);
+		while((inFilePtr = fopen(inFile, "r")) == NULL){
+			printf("File not found. Enter another file name ");
 			scanf("%s", inFile);
-		case 2:
-			// Only one argument passes from command line
-		    // OR fell from above (no break statement)
-			printf("Please enter an output file name ");
-			scanf("%s", outFile);
-			break;
-		default:
-			strcpy(inFile, args[1]);
-			strcpy(outFile, args[2]);
+		}
+	} else {
+		strcpy(inFile, args[1]);
+		while((inFilePtr = fopen(inFile, "r")) == NULL){
+			printf("File not found. Enter another file name ");
+			scanf("%s", inFile);
+		}
 	}
+	if (argc < 3) {
+		printf("Please enter an output file name ");
+		scanf("%s", outFile);
+		outFilePtr = fopen(outFile, "r");
+		printf("%s", outFilePtr);
+		while(outFilePtr = fopen(outFile, "r")){
+			printf("File found. {R}e-enter, {O}verwrite ");
+			scanf("%c", choice);
+			// Handle choice
+		}
+	} else {
+		strcpy(outFile, args[2]);
+		// insert while looop from above when complete
+		// should probably be a function
+	}
+
 	printf("Input file: %s OutputFile %s", inFile, outFile);
 }
