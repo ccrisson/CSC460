@@ -1,3 +1,12 @@
+/*Program1
+  file_util.c
+  CSC-460 Language Translation
+  Group 9
+  Chris Crisson CRI4537@calu.edu
+  Matthew Bedillion BED9714@calu.edu
+  Mark Blatnik BLA9072@calu.edu
+  Adlene Bellaoucha BEL7984@calu.edu
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
