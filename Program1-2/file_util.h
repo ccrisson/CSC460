@@ -4,6 +4,8 @@
 #define INEXT ".IN"
 #define OUTEXT ".OUT"
 #define BACKEXT ".BAK"
+#define LISTEXT ".LIS"
+#define TEMPFILENAME "temporary.TEMP"
 
 FILE *inFile;
 FILE *outFile;
@@ -21,5 +23,8 @@ char* getInFile(char* file);
 char* getOutFile(char* file, char* defaultName);
 void copyFile(char* in, char* out);
 void backupFile(char* file);
+void createListingFile(char* file);
+void createTempFile();
+void removeTempFile();
 
 #endif

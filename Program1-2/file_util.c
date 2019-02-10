@@ -94,14 +94,19 @@ char* getOutFile(char* filename, char* defaultName) {
 					temp[i] = '\0';
 				}
 			}
-		} else if (strcmp(choice,"2")){
+		} else if (choice[0] == '2'){
 			overwrite = 1;
+			return filename;
 		} else if (strcmp(choice,"")){
 			go = 0;
 			return "";
 		}
 		strcpy(filename, temp);
-		fclose(outFile);
+		// Check for file extention
+		if(!(strchr(filename, '.'))){
+			strcat(filename, OUTEXT);
+			fclose(outFile);
+		}
 	}
 	fclose(outFile);
 	strcpy(outputFilename, filename);
@@ -112,16 +117,15 @@ void copyFile(char* in, char* out){
 	char c;
 	inFile = fopen(in, "r");
 	outFile = fopen(out, "w");
-	//printf("hello from copyFile()");
 	while((c = fgetc(inFile)) != EOF){
 		fputc(c, outFile);
 	}
 	fclose(inFile);
 	fclose(outFile);
+	return;
 }
 
 void backupFile(char* file){
-	printf("in backup: %s\n", file);
 	char c;
 	char back[MAX_CHAR] = "";
 	i = 0;
@@ -136,6 +140,42 @@ void backupFile(char* file){
 		strcpy(back, file);
 	}
 	strcat(back, BACKEXT);
-	printf("%s\n",back);
 	copyFile(file, back);
+	remove(file);
+	return;
+}
+
+void createListingFile(char* file){
+	char c;
+	char list[MAX_CHAR] = "";
+	i = 0;
+	//strip extention from default
+	if(strchr(file, '.')){
+		while(file[i] != '.'){
+			list[i] = file[i];
+			i++;
+		}
+		list[i] = '\0';
+	} else {
+		strcpy(list, file);
+	}
+	strcat(list, LISTEXT);
+	outFile = fopen(list, "w");
+	fclose(outFile);
+	return;
+}
+
+void createTempFile(){
+	outFile = fopen(TEMPFILENAME, "w");
+	fclose(outFile);
+	return;
+}
+
+void removeTempFile(){
+	if(remove(TEMPFILENAME) == 0){
+		printf("Deleted %s successfully\n", TEMPFILENAME);
+	}else {
+		printf("Delete %s error\n", TEMPFILENAME);
+	}
+	return;
 }

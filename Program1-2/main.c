@@ -37,12 +37,15 @@ int main(int argc, char** args) {
 		strcpy(outputFile,getOutFile(argOut, inputFile));
 	}
 	// Handle backup 
-	if(overwrite == 1 && go){
+	if((overwrite == 1) && go){
 		backupFile(outputFile);
 	}
 	// File copy
 	if(go){
 		copyFile(inputFile, outputFile);
+		createListingFile(outputFile);
+		createTempFile();
+		//removeTempFile();
 	}
 	
 	//fclose(inFile);
