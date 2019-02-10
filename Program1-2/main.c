@@ -20,34 +20,56 @@ int main(int argc, char** args) {
 	char argOut[MAX_CHAR];
 	char inputFile[MAX_CHAR];
 	char outputFile[MAX_CHAR];
-	
-	// Handle input file
-	if(go){
-		if (argc > 1){
-			strcpy(argIn, args[1]);
-		} 
-		strcpy(inputFile,getInFile(argIn));
-		printf("%s\n",inputFile);
-	}
-	// Handle output file
-	if(go){
-		if (argc > 2){
-			strcpy(argOut, args[2]);
+	char choice[MAX_CHAR];
+	int validChoice;
+
+	while(go){
+		validChoice = -1;
+		// Handle input file
+		if(go){
+			if (argc > 1){
+				strcpy(argIn, args[1]);
+			} 
+			strcpy(inputFile,getInFile(argIn));
 		}
-		strcpy(outputFile,getOutFile(argOut, inputFile));
+		// Handle output file
+		if(go){
+			if (argc > 2){
+				strcpy(argOut, args[2]);
+			}
+			strcpy(outputFile,getOutFile(argOut, inputFile));
+		}
+		// Handle backup 
+		if((overwrite == 1) && go){
+			backupFile(outputFile);
+		}
+		// File copy
+		if(go){
+			if(copyFile(inputFile, outputFile) == 1){
+				createListingFile(outputFile);
+				createTempFile();
+			}
+			//removeTempFile();
+		}
+		// Prompt to go again or quit
+		if(go){
+			while(validChoice != 1){
+				printf("Enter 1 to Continue.\n");
+				printf("Enter 2 to Quit\n");
+				choice[0] = '\0';
+				gets(choice);
+				if(choice[0] == '1'){
+					validChoice = 1;
+					// Reset args to prevent infinite loop
+					argIn[0] = '\0';
+					argOut[0] = '\0';
+					argc = 0;
+				} else if(choice[0] == '2'){
+					validChoice = 1;
+					go = 0;
+				}
+			}
+		}
 	}
-	// Handle backup 
-	if((overwrite == 1) && go){
-		backupFile(outputFile);
-	}
-	// File copy
-	if(go){
-		copyFile(inputFile, outputFile);
-		createListingFile(outputFile);
-		createTempFile();
-		//removeTempFile();
-	}
-	
-	//fclose(inFile);
-	//fclose(outFile);
+	return 0;
 }

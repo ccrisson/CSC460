@@ -97,7 +97,7 @@ char* getOutFile(char* filename, char* defaultName) {
 		} else if (choice[0] == '2'){
 			overwrite = 1;
 			return filename;
-		} else if (strcmp(choice,"")){
+		} else if (choice[0] == '\0'){
 			go = 0;
 			return "";
 		}
@@ -113,16 +113,22 @@ char* getOutFile(char* filename, char* defaultName) {
 	return(filename);
 }
 
-void copyFile(char* in, char* out){
+int copyFile(char* in, char* out){
 	char c;
-	inFile = fopen(in, "r");
-	outFile = fopen(out, "w");
-	while((c = fgetc(inFile)) != EOF){
-		fputc(c, outFile);
+	if(strcmp(in,out)){
+		inFile = fopen(in, "r");
+		outFile = fopen(out, "w");
+		while((c = fgetc(inFile)) != EOF){
+			fputc(c, outFile);
+		}
+		fclose(inFile);
+		fclose(outFile);
+		return 1;
+	} else {
+		printf("File Copy Error. Both files have the same name.\n");
+		return 0;
 	}
-	fclose(inFile);
-	fclose(outFile);
-	return;
+
 }
 
 void backupFile(char* file){
@@ -160,8 +166,7 @@ void createListingFile(char* file){
 		strcpy(list, file);
 	}
 	strcat(list, LISTEXT);
-	outFile = fopen(list, "w");
-	fclose(outFile);
+	copyFile(file, list);
 	return;
 }
 

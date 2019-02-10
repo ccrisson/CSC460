@@ -21,7 +21,7 @@ char outExtention[MAX_CHAR];
 
 char* getInFile(char* file);
 char* getOutFile(char* file, char* defaultName);
-void copyFile(char* in, char* out);
+int copyFile(char* in, char* out);
 void backupFile(char* file);
 void createListingFile(char* file);
 void createTempFile();
