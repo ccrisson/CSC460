@@ -121,6 +121,7 @@ void copyFile(char* in, char* out){
 }
 
 void backupFile(char* file){
+	printf("in backup: %s\n", file);
 	char c;
 	char back[MAX_CHAR] = "";
 	i = 0;
@@ -135,5 +136,6 @@ void backupFile(char* file){
 		strcpy(back, file);
 	}
 	strcat(back, BACKEXT);
+	printf("%s\n",back);
 	copyFile(file, back);
 }

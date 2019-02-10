@@ -37,7 +37,7 @@ int main(int argc, char** args) {
 		strcpy(outputFile,getOutFile(argOut, inputFile));
 	}
 	// Handle backup 
-	if(overwrite && go){
+	if(overwrite == 1 && go){
 		backupFile(outputFile);
 	}
 	// File copy
