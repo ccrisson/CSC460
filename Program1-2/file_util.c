@@ -75,7 +75,7 @@ char* getOutFile(char* filename, char* defaultName) {
 		printf("Enter 1 to enter a new file name.\n");
 		printf("Enter 2 to overwrite %s\n", filename);
 		printf("Enter nothing to quit.\n");
-		strcpy(choice,"");
+		choice[0] = '\0';
 		gets(choice);
 		if(choice[0] == '1'){
 			printf("Please enter an output file name.\n");
