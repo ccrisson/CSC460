@@ -12,38 +12,39 @@
 #include <stdlib.h>
 #include "file_util.h"
 
-extern FILE *inFile;
-extern FILE *outFile;
 int go = 1;
 int overwrite = 0;
 
 int main(int argc, char** args) {
 	char argIn[MAX_CHAR];
 	char argOut[MAX_CHAR];
+	char inputFile[MAX_CHAR];
+	char outputFile[MAX_CHAR];
 	
 	// Handle input file
 	if(go){
 		if (argc > 1){
 			strcpy(argIn, args[1]);
 		} 
-		getInFile(argIn);
+		strcpy(inputFile,getInFile(argIn));
+		printf("%s\n",inputFile);
 	}
 	// Handle output file
 	if(go){
 		if (argc > 2){
 			strcpy(argOut, args[2]);
 		}
-		getOutFile(argOut);
+		strcpy(outputFile,getOutFile(argOut, inputFile));
 	}
 	// Handle backup 
 	if(overwrite && go){
-		printf("overwrite =%d\n",overwrite);
+		backupFile(outputFile);
 	}
 	// File copy
-
-	copyFile(inFile, outFile);
+	if(go){
+		copyFile(inputFile, outputFile);
+	}
 	
-	
-	fclose(inFile);
-	fclose(outFile);
+	//fclose(inFile);
+	//fclose(outFile);
 }
