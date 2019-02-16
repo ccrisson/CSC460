@@ -12,13 +12,19 @@ int getInFile(int arg_count,  char * argv[], FILE ** input)
     {
 		cont=0;
         fflush(stdin);
-   		printf("\t%d parameters entered from command line", (arg_count-1));
-		printf("\n\tEnter an Input File Name, or Press Enter to Exit: ");  //prompts user for input file name
+   		//printf("\t%d parameters entered from command line", (arg_count-1));
+		//printf("\n\tEnter an Input File Name, or Press Enter to Exit: ");  //prompts user for input file name
 
+        if (arg_count > 1){
+        	strcpy(inFile, argv[1]);
+        } else {
+        	printf("\n\tEnter an Input File Name, or Press Enter to Exit: ");
+        	gets(inFile);
+        }
 
 //READ AND PARSE THE STRING
 
-	gets(inFile);
+	
 		if (inFile[0] != '\0')
 		{
 			d = strchr(inFile, '.');
@@ -64,8 +70,14 @@ int getOutFile(int arg_count,  char * argv[], FILE **output, FILE **listing, FIL
 		cont=0;
 		outExist=1;
 		choice='\0';
-        printf("\n\tEnter an Output file Name: ");
-		gets(outFile);
+
+		 if (arg_count > 2){
+        	strcpy(outFile, argv[2]);
+        } else {
+        	printf("\n\tEnter an Output file Name: ");
+        	gets(outFile);
+        }
+
 
 		if (outFile != NULL)
 		{
