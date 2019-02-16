@@ -1,0 +1,20 @@
+1) begin read
+2) read
+3) begin read
+4) read
+5) begin read
+6) read
+7) write
+8) write
+9) if i > 5
+10) if i > 5
+11) if i > 5
+12) if i > 5
+13) if i > 5
+14) i = i + 6;
+15) i = i + 6;
+16) i = i + 6;
+17) i = i + 6;
+18) i = i + 6;
+19) i = i + 6;
+20) end
