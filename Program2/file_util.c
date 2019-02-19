@@ -3,7 +3,6 @@
 
 int getInFile(int arg_count,  char * argv[], FILE ** input)
 {
-/*INPUT FILE NAME LOOP ACCEPTS AN EXISTING NAME OR LOOPS UNTIL ONE IS FOUND OR USER ENTERS NULL   */
     int i=0, cont = 0, ext, inExist = 0;
     char *d;
     char inFile [MAX_CHAR];
@@ -12,8 +11,6 @@ int getInFile(int arg_count,  char * argv[], FILE ** input)
     {
 		cont=0;
         fflush(stdin);
-   		//printf("\t%d parameters entered from command line", (arg_count-1));
-		//printf("\n\tEnter an Input File Name, or Press Enter to Exit: ");  //prompts user for input file name
 
         if (arg_count > 1){
         	strcpy(inFile, argv[1]);
@@ -24,7 +21,6 @@ int getInFile(int arg_count,  char * argv[], FILE ** input)
 
 //READ AND PARSE THE STRING
 
-	
 		if (inFile[0] != '\0')
 		{
 			d = strchr(inFile, '.');
@@ -39,11 +35,11 @@ int getInFile(int arg_count,  char * argv[], FILE ** input)
 
 			     if (inExist!=0)
 				{
-					*input=fopen(inFile,"r");                                        //if file exists open it for reading
-					printf("\n\t*SUCCESS* Opened Input File: [%s] \n", inFile);       //inform user input file successfully opened
+					*input=fopen(inFile,"r");                                           //Open file for reading if exists
+					printf("\n\t*SUCCESS* Input File is Opened: [%s] \n", inFile);      
 				}
 				else
-					printf("\n\t*ERROR* Input File: [%s] Could Not be Located\n", inFile);    //if file doesn't exist loop again until user exits
+					printf("\n\t*ERROR* Input File: [%s] Could Not be Located\n", inFile);  
 		}
 		else
 		{
@@ -65,8 +61,8 @@ int getOutFile(int arg_count,  char * argv[], FILE **output, FILE **listing, FIL
 
 
 	outExist = 0;
-	while(outExist==0)   			//output file control loop, loops until an output file is
-    {                               //successfully opened or user terminates
+	while(outExist==0)   			//Loops until an output file is successfully opened 
+    {                               		
 		cont=0;
 		outExist=1;
 		choice='\0';
@@ -74,7 +70,7 @@ int getOutFile(int arg_count,  char * argv[], FILE **output, FILE **listing, FIL
 		 if (arg_count > 2){
         	strcpy(outFile, argv[2]);
         } else {
-        	printf("\n\tEnter an Output file Name: ");
+        	printf("\n\tEnter an output file name: ");
         	gets(outFile);
         }
 
@@ -89,8 +85,8 @@ int getOutFile(int arg_count,  char * argv[], FILE **output, FILE **listing, FIL
 				 if((fopen(outFile,"r")))
 				 {
 
-					 printf("\tThis File Name is Already in Use.\n");
-					 printf("\tWould You Like To OverWrite It?");
+					 printf("\tThis file name is already in use.\n");
+					 printf("\tWould you like to overwrite it?");
 					 choice=getchar();
 						if(choice=='Y' || choice == 'y')
 						{
@@ -100,9 +96,9 @@ int getOutFile(int arg_count,  char * argv[], FILE **output, FILE **listing, FIL
 
 				 };
 
-                *output=fopen(outFile,"w");                                      	//opens output file searches for the '.' keeps only
-                printf("\n\t*SUCCESS* Opened  Output  File: [%s]", outFile);		// that which comes before the '.' and adds .lst extern
-				memset(listFile, '\0', MAX_CHAR);									//after that open listing file with .lst extension
+                *output=fopen(outFile,"w");                                      //opens the output file searches for the '.' keeps only
+                printf("\n\t*SUCCESS* Opened  Output  File: [%s]", outFile);	 //that which comes before the '.' and adds .lst extern
+				memset(listFile, '\0', MAX_CHAR);		 //after that open listing file with .lst extension
 				d = strchr(outFile, '.');
 				p = (int)(d - outFile);
 				strncpy(listFile, outFile, p);
@@ -118,7 +114,7 @@ int getOutFile(int arg_count,  char * argv[], FILE **output, FILE **listing, FIL
 };
 
 
-void copy_backup(char *outFile)   // copies current contents of output to backup file
+void copy_backup(char *outFile)   //Copies current contents of output to backup file
 {
 	int p;
 	char *d;
@@ -126,23 +122,23 @@ void copy_backup(char *outFile)   // copies current contents of output to backup
 	FILE *back_up, *output;
 
 
-	output=fopen(outFile,"r");      						// open local file output and set it to outFile
-	memset(outBak,'\0',MAX_CHAR);  							// clears outBak array
-	d = strchr(outFile, '.');     							 // locate first instance of '.'
-	p = (int)(d - outFile);									// subtract remaining string from outFile to get integer value of lettters before the .
-	strncpy(outBak, outFile, p);  							// copy to the dot
-	strcat(outBak,".BAK");   							 //concatenate .BAK extension
-	back_up=fopen(outBak,"w");  							//open backup for writing
+	output=fopen(outFile,"r");      					//Open local file output and set it to outFile
+	memset(outBak,'\0',MAX_CHAR);  						//Clears outBak array
+	d = strchr(outFile, '.');     						//Locate first instance of '.'
+	p = (int)(d - outFile);							//Subtract remaining string to get integer value of letters before the .
+	strncpy(outBak, outFile, p);  						//Copy to the dot
+	strcat(outBak,".BAK");   						//Concatenate .BAK extension
+	back_up=fopen(outBak,"w");  						//Open backup for writing
 	printf("\n\t*SUCCESS* Created Backup  File: [%s]",outBak);
 
 	char c;
 
-    while((c=getc(output))!=EOF)      //while output is not at the end of file copy to backup
+    while((c=getc(output))!=EOF)        //while output is not at the end of file copy to backup
     {
         putc(c,back_up);
   	};
-	fclose(output);					//since neither file will be used outside this function close both local output and backup
-	fclose(back_up);
+	fclose(output);			//Close local output
+	fclose(back_up);		//Close backup
 }
 void printToken(FILE *input, FILE *output, FILE *listing,token tok[])
 {
@@ -172,16 +168,16 @@ void printToken(FILE *input, FILE *output, FILE *listing,token tok[])
 	char scaneof[]="SCAN EOF";
 
 		int i;
-		for(i=0;i<tok[i].len;i++)        //loop until token is out of char
+		for(i=0;i<tok[i].len;i++)        
 		{
 
-			if(*tok[i].str =='\0' ||  tok[i].num!=10)   // if its a blank line or not an error print it
+			if(*tok[i].str =='\0' ||  tok[i].num!=10)   	//If blank line or not an error, print it
 			{
 				j++;
 				fprintf(listing,"%d) ",j);
 				fprintf(listing,"%s",tok[i].str);
 			}
-				else 										//else it is an error
+				else 					
 				{
 
 					fprintf(listing,"ERROR Not Recognized [%.*s]\n ",tok[i].len,tok[i].str);
@@ -246,8 +242,7 @@ void closeFiles(FILE *input, FILE *output, FILE *listing, FILE *tmp)
 		fclose(listing);
 	if(tmp)
 		fclose(tmp);
-	//if(back_up)
-		//fclose(back_up);
+
 };
 
 void scanner (FILE *input, FILE *output, FILE *listing)
@@ -256,27 +251,22 @@ void scanner (FILE *input, FILE *output, FILE *listing)
 	char c;
 	char lineBuff[MAXBUFF];
 	 int count=0,i=0;
-	clear_lineBuff(lineBuff);								//make sure line buff is empty
-	while(fgets(lineBuff,MAXBUFF,input) !=NULL)				//gets a line from input
+	clear_lineBuff(lineBuff);					//Make sure line buff is empty
+	while(fgets(lineBuff,MAXBUFF,input) !=NULL)			//Gets a line from input
 	{
 		i++;
-
-
-
-		count=Tokenize(lineBuff,tok);					//calls func tokenize and returns number of tokens on that line
+		count=Tokenize(lineBuff,tok);				//Calls func tokenize and returns number of tokens on that line
 		printf("\nLine %d has %d tokens:",i,count);
 		ident_token(count,tok);
-		clear_lineBuff(lineBuff);						//clears the line buffer for next line
-
+		clear_lineBuff(lineBuff);				//Clears the line buffer for next line
 
 	}
-
 
 }
 
 void clear_lineBuff(char * lineBuff)
 {
-	memset(lineBuff,'\0',MAXBUFF);				//sets value of line buff to null
+	memset(lineBuff,'\0',MAXBUFF);					//Sets the value of lineBuff to null
 }
 
 int Tokenize( char *lineBuff,  token tok[])
@@ -285,24 +275,23 @@ int Tokenize( char *lineBuff,  token tok[])
 
 	char *begin,c;
 	int count=0;
-	while(*lineBuff)       //dereference linebuff and loop while not null
+	while(*lineBuff)       						
 	{
-
-		while(isspace(*lineBuff))		//consume leading whitespace
+		while(isspace(*lineBuff))				//Leading whitespace is consumed
 			lineBuff++;
 
-		begin=lineBuff;					//set char ptr to start of linebuff
+		begin=lineBuff;						//Let character pointer to the start of lineBuff
 
-		while(*lineBuff && !isspace(*lineBuff))		//if not null and not space go to next character
+		while(*lineBuff && !isspace(*lineBuff))			//Go to next character
 			lineBuff++;
 
-			if(count < MAXBUFF)				//if token is within parameters
-			{									//assign tok str to the value pointed to by begin
-				tok[count].str=begin;			//length of token is the difference of current pos ptr and linebuff ptr
-				tok[count].len= lineBuff-begin;
+			if(count < MAXBUFF)				//In case token is within parameters
+			{						
+				tok[count].str=begin;			
+				tok[count].len= lineBuff-begin;		
 				lineBuff++;
 			}
-			count++;					//inc token count
+			count++;					
 	}
 	return count;
 }
@@ -318,65 +307,65 @@ void ident_token(int count, token tok[])
 		tmp.len=0;
 		tok[i].num=0;
 		resWord=0;
-		if (isalpha(*tok[i].str))  //if the string begins with an alpha
+		if (isalpha(*tok[i].str))  		//In case the string begins with an alpha
 		{
 
-			tmp.str=tok[i].str;			//assign a tmp token the values
+			tmp.str=tok[i].str;		
 			tmp.len=tok[i].len;
-			resWord=checkReserved(tmp);  //pass tmp token into function to check if it is reserved
+			resWord=checkReserved(tmp);  	//Pass tmp token into function to check if reserved
 			tok[i].num=resWord;
-			if(tok[i].num<8)			// reserved words are enum status 1-7
+			if(tok[i].num<8)		
 			{
 				printf("\n\t[%.*s]IS A RESERVED WORD ENUM %d",tmp.len,tmp.str,tok[i].num);
 
 
 			}
-			if(tok[i].num == 8)		//variable are enum 8
+			if(tok[i].num == 8)		
 			{
 				printf("\n\t[%.*s] IS A VARIABLE ENUM %d",tmp.len,tmp.str,tok[i].num);
 
 			}
-			printToken(input,output,listing,tok);				//print the token
+			printToken(input,output,listing,tok);		//Printing the token		
 		}
 
-		else if(isdigit(*tok[i].str))		//see if token begins with int
+		else if(isdigit(*tok[i].str))		//Check if the token begins with an integer
 		{
 			tmp.str=tok[i].str;
 			tmp.len=tok[i].len;
 			printf("\n\t[ %.*s ]",tmp.len,tmp.str);
-			isInt=checkInt(tmp);				//checks if all of the str is digits, returns 1 if not int
-			tok[i].num=isInt;					// assigns either 1 or 0 to struct value. 1= is not an int 0= is an int
-				if(tok[i].num==9)				// ints are enum 9
+			isInt=checkInt(tmp);				//checks if all of the string is digits, returns 1 if not int
+			tok[i].num=isInt;				// assigns either 1 or 0 to struct value. 1= is not an int 0= is an int
+				if(tok[i].num==9)			// ints are enum 9
 				{
 					printf(" IS AN INT ENUM %d",tok[i].num);
 
 				}
-				else							//if string contains any char other than int
+				else					//In case string contains any character other than int
 				{
 					printf(" IS A LEX ERROR %d", tok[i].num);
 
 				}
 
-			printToken(input,output,listing,tok);				//print the token
+			printToken(input,output,listing,tok);		//Printing the token
 		}
 		else
 		{
 			tmp.str=tok[i].str;
 			tmp.len=tok[i].len;
 			printf("\n\t[ %.*s ]",tmp.len,tmp.str);
-			isSym=checkSymbol(tmp);				//checks to see if token is any of the reserved characters
+			isSym=checkSymbol(tmp);				//Checks if token is any of the reserved characters
 			tok[i].num=isSym;
-				if(tok[i].num>10 && tok[i].num<21)		//reserve char are enum 10-21
+				if(tok[i].num>10 && tok[i].num<21)		
 				{
 					printf(" IS A SYMBOL ENUM %d", tok[i].num);
 
 				}
-				else									//if not a aplha digit or symbol, its an error
+				else				//If not an aplha digit or a symbol, an error will occur
 				{
 					printf(" IS A LEX ERROR ENUM %d",tok[i].num);
 
 				}
-			printToken(input,output,listing,tok);				//print the token
+			printToken(input,output,listing,tok);				//Printing the token
 		}
 
 
@@ -426,13 +415,12 @@ int checkInt(token tmp)
 	ptr=tmp.str;
 
 	int i;
-	for(i=0; i<tmp.len;i++)				//loop size of token
+	for(i=0; i<tmp.len;i++)				//Size of the token
 	{
 
-		if(!isdigit(*ptr))				//dereferencing ptr and check if its a digit, if not give it enum 10 for lex error
-			digit=10;
-
-		ptr++;							//inc the pointer to next char
+		if(!isdigit(*ptr))			//Check if pointer is a digit
+			digit=10;			//In case of not a digit, give it enum 10 for lexical error
+		ptr++;							
 	}
 	return digit;
 
@@ -442,7 +430,7 @@ int checkSymbol(token tmp)
 	char string[MAX_CHAR];
 	int sym=0;
 	memset(string,'\0',MAX_CHAR);
-	strncpy(string, tmp.str,tmp.len);		//copy into char array for strcmp, see if it matches any reserved tokens
+	strncpy(string, tmp.str,tmp.len);		//Check if it matches any reserved tokens
 
 	 if(strcmp(string,"(")==0)
 		 sym=11;
@@ -465,7 +453,7 @@ int checkSymbol(token tmp)
 	 else if(strcmp(string,"=")==0)
 		 sym=20;
 
-	else						//if it does not its a lex error enumerated by 10
+	else						//In case of not, it is a lexical error enumerated 10
 		sym=10;
 
 
