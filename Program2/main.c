@@ -10,16 +10,14 @@ int main (int argc, char *argv[])
          if(getInFile(argc, argv, &input));
 		{
 		 				
-			if(getOutFile(argc, argv, &output, &listing, &tmp)) //call function for output file opening
+			if(getOutFile(argc, argv, &output, &listing, &tmp)) 	//Calls the function for opening output file 
 			{
 				 scanner(input,output,listing);
-				 closeFiles( input,  output,  listing,  tmp); //call function to close any open files
+				 closeFiles( input,  output,  listing,  tmp); 	//Calls the function to close open files
 			
 			};
 			
 		}
 	
-  printf("\n\tHAVE A NICE DAY \n");
- // system ("Pause");
   return 0;
 }
