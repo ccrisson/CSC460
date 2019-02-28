@@ -256,7 +256,7 @@ void scanner (FILE *input, FILE *output, FILE *listing)
 	while(fgets(lineBuff,MAXBUFF,input) !=NULL)			//Gets a line from input
 	{
 		i++;
-		count=Tokenize(lineBuff,tok);				//Calls func tokenize and returns number of tokens on that line
+		count=Tokenizer(lineBuff,tok);			//Calls func tokenize and returns number of tokens on that line
 		printf("\nLine %d has %d tokens:",i,count);
 		ident_token(count,tok);
 		clear_lineBuff(lineBuff);				//Clears the line buffer for next line
@@ -273,6 +273,7 @@ void clear_lineBuff(char * lineBuff)
 
 int Tokenizer(char *linebuffer, token tokenslots[])	//tokenizes it
 {
+	int comment = -1;
 	char *beginning_token;
 	int counter =0;
 	int typechecker = 0;
@@ -288,6 +289,17 @@ int Tokenizer(char *linebuffer, token tokenslots[])	//tokenizes it
 			}
 			//printf("\t %c",linebuffer); <-nothing in the line buffer
 			beginning_token = linebuffer;  //find the beginning
+			/*if(*linebuffer == '-'){
+				
+				char x = *linebuffer++;
+				if (x == '-'){
+					fflush(stdin);
+					return counter--;
+				}
+				else{
+					*linebuffer--;
+				}
+			}*/
 			if(isalpha(*linebuffer))
 			{
 				typechecker = 1;
@@ -307,7 +319,7 @@ int Tokenizer(char *linebuffer, token tokenslots[])	//tokenizes it
 			typecheckprev = typechecker;
 		//	printf("%c",beginning_token);
 		//	system("PAUSE");
-			while(*linebuffer && !isspace(*linebuffer) && typechecker == typecheckprev) //a space is found lets keep grabbing
+			while(*linebuffer && !isspace(*linebuffer) && typechecker == typecheckprev && comment == -1) //a space is found lets keep grabbing
 			{
 				linebuffer++; //next token please
 				if(isalpha(*linebuffer))
@@ -329,12 +341,12 @@ int Tokenizer(char *linebuffer, token tokenslots[])	//tokenizes it
 			}
 				typecheckprev = typechecker;
 			
-				if(counter < MAX_BUFFER) //checkin if we found the end
+				if(counter < MAXBUFF) //checkin if we found the end
 				{
 				//	printf("\n \t %c \n", beginning_token);
 				//	system("PAUSE");
-					tokenslots[counter].str=beginning_token; //puttin it inside
-					tokenslots[counter].length = linebuffer - beginning_token; //grabbing the length of the token
+					tokenslots[counter].str=beginning_token; //puttin it in
+					tokenslots[counter].len = linebuffer - beginning_token; //grabbing the length of the token
 				//	printf(" \t  %[%.*s]", tokenslots);
 				//	system("PAUSE");
 				//linebuffer++; //lets continue on
