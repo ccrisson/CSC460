@@ -1,0 +1,5 @@
+begin read
+write
+if i > 5
+i = i + 6;
+end
