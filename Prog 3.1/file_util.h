@@ -1,3 +1,12 @@
+/*Program 3
+  CSC-460 Language Translation
+  Group 9
+  Chris Crisson CRI4537@calu.edu
+  Matthew Bedillion BED9714@calu.edu
+  Mark Blatnik BLA9072@calu.edu
+  Adlene Bellaoucha BEL7984@calu.edu
+*/
+
 #ifndef FILE_UTIL_H
 #define FILE_UTIL_H
 #ifdef _MSC_VER 
