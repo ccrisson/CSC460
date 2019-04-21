@@ -24,7 +24,7 @@ int getInFile(FILE **input)
 		cont=0;
         fflush(stdin);
 		printf("\n\tEnter an Input File Name, or Press Enter to Exit: ");  
-    }
+    
 
 //READ AND PARSE THE STRING
 	
@@ -54,7 +54,7 @@ int getInFile(FILE **input)
 			inExist=2;
 		}
 	}
-    return inExist;	
+    return (inExist);	
 };
 
 int getOutFile(FILE **output, FILE **listing, FILE **tmp)
